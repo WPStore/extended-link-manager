@@ -48,10 +48,6 @@ __[GPLv2 or later](http://www.gnu.org/licenses/gpl-2.0.html)__
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-## Changelog
-* __TODO__ _[future plans/roadmap][4.1]_
-	* TBD
-* __0.1-dev__
-	* TBD
-
-[4.1]: https://github.com/wp-cloud/extended-link-manager/issues
+__MORE__
+* [Changelog](../../blob/master/CHANGELOG.md)
+* [Guidelines for contributing](../../blob/master/CONTRIBUTING.md)
