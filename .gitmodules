@@ -1,0 +1,3 @@
+[submodule "wpc"]
+	path = wpc
+	url = https://github.com/wp-cloud/wpc-plugin-core.git
