@@ -6,7 +6,7 @@ if ( ! function_exists( 'add_filter' ) ) {
 	exit();
 }
 
-class ExtendedLinkManager_Admin extends ExtendedLinkManager {
+class ExtendedLinkManager_Admin {
 	
 	// Plugin instance
 	protected static $instance = NULL;
@@ -14,9 +14,6 @@ class ExtendedLinkManager_Admin extends ExtendedLinkManager {
 	public function __construct() {
 		if ( ! is_admin() )
 			return NULL;
-		
-		add_action( 'admin_menu' , array( $this, 'admin_menu' ) );
-		add_filter( 'plugin_row_meta', array( $this, 'set_plugin_meta' ), 10, 2 );
 	}
     
 	// Access this plugin's working instance
@@ -25,6 +22,11 @@ class ExtendedLinkManager_Admin extends ExtendedLinkManager {
 			self::$instance = new self;
 
 		return self::$instance;
+	}
+	
+	public static function init() {
+		add_action( 'admin_menu' , array( $this, 'admin_menu' ) );
+		add_filter( 'plugin_row_meta', array( $this, 'set_plugin_meta' ), 10, 2 );
 	}
 	
 	function admin_menu() {
@@ -59,4 +61,4 @@ class ExtendedLinkManager_Admin extends ExtendedLinkManager {
 
 } // END class ExtendedLinkManager_Admin
 
-$exlm_admin = ExtendedLinkManager_Admin::get_instance();
+// $exlm_admin = ExtendedLinkManager_Admin::get_instance();

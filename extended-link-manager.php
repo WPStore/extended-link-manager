@@ -3,7 +3,7 @@
 Plugin Name: Extended Link-Manager
 Plugin URI: #
 Description: @TODO
-Version: 0.1-dev
+Version: 1.0-dev
 Author: Foe Services
 Author URI: http://www.foe-services.de/
 License: GPLv2 or later
@@ -47,20 +47,27 @@ if ( ! class_exists( 'ExtendedLinkManager' ) ) {
 	
 	add_action(
 		'plugins_loaded', 
-		array ( 'ExtendedLinkManager', 'get_instance' )
+		array( 'ExtendedLinkManager', 'get_instance' )
 	);
 
 	class ExtendedLinkManager {
+		// activate development mode
+		const DEV = true;
 		
-		// Plugin constants
-		const VERSION = '0.1-dev';
 		// Plugin instance + variables
 		protected static $instance = NULL;
 		protected $loaded_textdomain = false;
 		
 		public function __construct() {
-			$this->load_plugin_textdomain();
+			
 			$this->load_classes();
+			
+			ExtendedLinkManager_Init::init();
+			ExtendedLinkManager_Admin::init();
+			ExtendedLinkManager_Frontend::init();
+			
+			register_activation_hook( __FILE__, array( 'ExtendedLinkManager', 'activate' ) );
+			register_deactivation_hook( __FILE__, array( 'ExtendedLinkManager', 'deactivate' ) );
 		}
         
 		// Access this plugin’s working instance
@@ -73,18 +80,29 @@ if ( ! class_exists( 'ExtendedLinkManager' ) ) {
 	
 		// load classes from INC path
 		protected function load_classes() {
-			foreach( glob( EXLM_PATH . '/inc/class.*.php' ) as $class ) {
-				require_once $class;
+			require_once EXLM_PATH . '/wpc/loader.php';
+			WPCLoader::load( self::DEV );
+			
+			if ( self::DEV == true ) {
+				foreach( glob( EXLM_PATH . '/inc/class.*.php', GLOB_NOSORT ) as $class ) {
+					require_once $class;
+				}
+			} else {
+				// static loading of classes
+				require_once '/inc/class.init.php';
+				require_once '/inc/class.admin.php';
+				require_once '/inc/class.frontend.php';
 			}
+			
 		}
 		
-		protected function load_plugin_textdomain() {
-			if (!$this->loaded_textdomain) {
-				load_plugin_textdomain( 'extended-link-manager' , false, EXLM_PATH  . '/languages');
-				$this->loaded_textdomain = true;
-			}
+		public function activate() {
+			flush_rewrite_rules();
 		}
 		
-	} // END class ExtendedLinkManager
+		public function deactivate() {
+			flush_rewrite_rules();
+		}
 	
+	} // END class ExtendedLinkManager
 } // END if class_exists
