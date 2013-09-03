@@ -56,7 +56,7 @@ if ( ! class_exists( 'ExtendedLinkManager' ) ) {
 		
 		// Plugin instance + variables
 		protected static $instance = NULL;
-		protected $loaded_textdomain = false;
+		static $page;
 		
 		public function __construct() {
 			

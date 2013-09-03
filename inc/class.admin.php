@@ -25,28 +25,28 @@ class ExtendedLinkManager_Admin {
 	}
 	
 	public static function init() {
-		add_action( 'admin_menu' , array( $this, 'admin_menu' ) );
-		add_filter( 'plugin_row_meta', array( $this, 'set_plugin_meta' ), 10, 2 );
+		add_action( 'admin_menu' , array( 'ExtendedLinkManager_Admin', 'admin_menu' ) );
+		add_filter( 'plugin_row_meta', array( 'ExtendedLinkManager_Admin', 'set_plugin_meta' ), 10, 2 );
 	}
 	
-	function admin_menu() {
+	static function admin_menu() {
 		// The plugins page
-		$this->page = add_theme_page(
+		ExtendedLinkManager::$page = add_theme_page(
 			__( '', 'extended-link-manager'),
 			__( '', 'extended-link-manager'),
 			'edit_theme_options',
 			'',
-			array( &$this, '' )
+			array( 'ExtendedLinkManager_Admin', 'register_assets' )
 		);
 		
-		add_action( 'load-'.$this->page, array( &$this, 'register_assets') );
+		add_action( 'load-'.ExtendedLinkManager::$page, array( 'ExtendedLinkManager_Admin', 'register_assets') );
 	}
 	
-	function register_assets() {
+	static function register_assets() {
 		
 	}
 	
-	function set_plugin_meta( $links, $file ) {	
+	static function set_plugin_meta( $links, $file ) {	
 		if ( $file == plugin_basename( JQPL_BASENAME ) ) {
 			return array_merge(
 				$links,
@@ -60,5 +60,3 @@ class ExtendedLinkManager_Admin {
 	}
 
 } // END class ExtendedLinkManager_Admin
-
-// $exlm_admin = ExtendedLinkManager_Admin::get_instance();
