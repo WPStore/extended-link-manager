@@ -30,23 +30,6 @@ class ExtendedLinkManager_Admin {
 	
 	static function admin_menu() {
 		$menus = array(
-//			array(
-//				'page_title' => __( 'jQuery Plugins', 'jquery-plugin-loader' ),
-//				'menu_title' => __( 'jQuery Plugins', 'jquery-plugin-loader' ),
-//				'capability' => jQueryPluginLoader::$permission,
-//				'menu_slug' => 'jquery-plugins',
-//				'function' => array( 'jQueryPluginLoader_Admin', 'plugins_page' ),
-//				'icon_url' => plugins_url( 'img/menu-icon.png', dirname( __FILE__ ) ), // @todo FIX
-//				'position' => 67 // @todo FIX
-//			),
-//			array(
-//				'parent_slug' => 'jquery-plugins',
-//				'page_title' => __( 'jQuery Plugins', 'jquery-plugin-loader' ),
-//				'menu_title' => __( 'Plugins' ),
-//				'capability' => jQueryPluginLoader::$permission,
-//				'menu_slug' => 'jquery-plugins',
-//				'function' => array( 'jQueryPluginLoader_Admin', 'plugins_page' )
-//			),
 			array(
 				'parent_slug' => 'options-general.php',
 				'page_title' => __( 'Settings') . ' &rsaquo; ' . __( 'Links', 'extended-link-manager' ),
@@ -62,13 +45,13 @@ class ExtendedLinkManager_Admin {
 	
 	static function register_settings() {
 		$settings[] = array(
-			'id' => 'jqpl',
+			'id' => 'exlm',
 			'title' => 'Plugin-Loader ' . __('Settings' ),
 			'desc' => __('This is the desc for the section #1 for the plugin loader', 'jquery-plugin-loader' ),
-			'page' => 'settings_page_jqpl-settings',
+			'page_tab' => 'exlm-settings-main',
 			'fields' => array(
 				array(
-					'id'	=> 'jqpl_headjs',
+					'id'	=> 'headjs',
 					'title'	=> 'HeadJS Loader',
 					'type'	=> 'checkbox',
 					'args'	=> array(
@@ -78,21 +61,27 @@ class ExtendedLinkManager_Admin {
 			),
 		);
 
-		// register_setting( $option_group, $option_name, $sanitize_callback )
-		$register_settings = array(
-			'option_group' => 'settings_page_jqpl-settings',
-			'option_name' => 'settings_page_jqpl-settings',
-			'sanitize_callback' => ''
-		);
+//		register_setting( $option_group, $option_name, $sanitize_callback );
+//		$register_settings = array(
+//			'option_group' => 'settings_page_jqpl-settings',
+//			'option_name' => 'settings_page_jqpl-settings',
+//			'sanitize_callback' => ''
+//		);
 
 		WPCAdmin::register_settings( $settings );
 	} // END register_settings()
 	
 	static function settings_page() {
-		WPCAdmin::generate_settings_page(
+		WPCAdmin::settings_page(
 			'options-general',
 			__( 'Link', 'extended-link-manager' ) . ' ' . __( 'Settings' ),
-			'settings_page_exlm-settings'
+			'exlm-settings-main',
+			'vertical',
+			array( 
+				array( __( 'Main', 'extended-link-manager' ), 'exlm-settings-main'),
+				array( __( 'Second', 'extended-link-manager' ), 'exlm-settings-second'),
+				array( __( 'Third', 'extended-link-manager' ), 'exlm-settings-third')
+			)
 		);
 	} // END settings_page()
 	

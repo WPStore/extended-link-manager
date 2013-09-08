@@ -1,7 +1,9 @@
 <?php
 /*
 Plugin Name: Extended Link-Manager
-Plugin URI: #
+Plugin URI: https://github.com/wp-cloud/extended-link-manager
+GitHub Plugin URI: https://github.com/wp-cloud/extended-link-manager
+Issues URI: https://github.com/wp-cloud/extended-link-manager/issues
 Description: @TODO
 Version: 1.0-dev
 Author: Foe Services

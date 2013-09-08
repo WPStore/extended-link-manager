@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
 class ExtendedLinkManager_Init {
 	
 	public static function init() {
-		// add_action( 'init' , array( 'ExtendedLinkManager_Init', 'register_cpt' ) );
+		add_action( 'init' , array( 'ExtendedLinkManager_Init', 'register_cpt' ) );
 		
 		load_plugin_textdomain( 'extended-link-manager' , false, EXLM_PATH . '/languages' );
 	}
@@ -53,10 +53,10 @@ class ExtendedLinkManager_Init {
 			'has_archive' => 'links',
 			'hierarchical' => true,
 			'menu_position' => null,
-			'menu_icon' => get_stylesheet_directory_uri() . '/img/links-icon.png', // @todo fix !theme
+			// 'menu_icon' => plugins_url( EXLM_BASENAME ) . '/img/links-icon.png', // @todo fix
 			'supports' => array( 'title' )
 		); 
-		
+
 		$tax_labels = array(
 			'name' => __( 'Categories' ), /* name of the custom taxonomy */
 			'singular_name' => __( 'Category' ), /* single taxonomy name */
