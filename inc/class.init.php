@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
 class ExtendedLinkManager_Init {
 	
 	public static function init() {
-		add_action( 'init' , array( 'ExtendedLinkManager_Init', 'register_cpt' ) );
+		// add_action( 'init' , array( 'ExtendedLinkManager_Init', 'register_cpt' ) );
 		
 		load_plugin_textdomain( 'extended-link-manager' , false, EXLM_PATH . '/languages' );
 	}
@@ -53,7 +53,7 @@ class ExtendedLinkManager_Init {
 			'has_archive' => 'links',
 			'hierarchical' => true,
 			'menu_position' => null,
-			'menu_icon' => get_stylesheet_directory_uri() . '/img/links-icon.png', /* the icon for the custom post type menu */
+			'menu_icon' => get_stylesheet_directory_uri() . '/img/links-icon.png', // @todo fix !theme
 			'supports' => array( 'title' )
 		); 
 		

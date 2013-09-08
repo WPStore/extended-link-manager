@@ -56,7 +56,7 @@ if ( ! class_exists( 'ExtendedLinkManager' ) ) {
 		
 		// Plugin instance + variables
 		protected static $instance = NULL;
-		static $page;
+		static $permission = 'edit_theme_options';
 		
 		public function __construct() {
 			
@@ -68,7 +68,7 @@ if ( ! class_exists( 'ExtendedLinkManager' ) ) {
 			
 			register_activation_hook( __FILE__, array( 'ExtendedLinkManager', 'activate' ) );
 			register_deactivation_hook( __FILE__, array( 'ExtendedLinkManager', 'deactivate' ) );
-		}
+		} // END __construct()
         
 		// Access this plugin’s working instance
 		public static function get_instance() {
@@ -76,7 +76,7 @@ if ( ! class_exists( 'ExtendedLinkManager' ) ) {
 				self::$instance = new self;
 
 			return self::$instance;
-		}       
+		} // END get_instance()      
 	
 		// load classes from INC path
 		protected function load_classes() {
@@ -94,15 +94,15 @@ if ( ! class_exists( 'ExtendedLinkManager' ) ) {
 				require_once '/inc/class.frontend.php';
 			}
 			
-		}
+		} // END load_classes()
 		
 		public function activate() {
 			flush_rewrite_rules();
-		}
+		} // END activate()
 		
 		public function deactivate() {
 			flush_rewrite_rules();
-		}
+		} // END deactivate()
 	
 	} // END class ExtendedLinkManager
 } // END if class_exists

@@ -14,37 +14,87 @@ class ExtendedLinkManager_Admin {
 	public function __construct() {
 		if ( ! is_admin() )
 			return NULL;
-	}
+	} // END __construct()
     
 	// Access this plugin's working instance
 	public static function get_instance() {
 		if ( NULL === self::$instance )
 			self::$instance = new self;
-
 		return self::$instance;
-	}
+	} // END get_instance()
 	
 	public static function init() {
 		add_action( 'admin_menu' , array( 'ExtendedLinkManager_Admin', 'admin_menu' ) );
 		add_filter( 'plugin_row_meta', array( 'ExtendedLinkManager_Admin', 'set_plugin_meta' ), 10, 2 );
-	}
+	} // END init()
 	
 	static function admin_menu() {
-		// The plugins page
-		ExtendedLinkManager::$page = add_theme_page(
-			__( '', 'extended-link-manager'),
-			__( '', 'extended-link-manager'),
-			'edit_theme_options',
-			'',
-			array( 'ExtendedLinkManager_Admin', 'register_assets' )
+		$menus = array(
+//			array(
+//				'page_title' => __( 'jQuery Plugins', 'jquery-plugin-loader' ),
+//				'menu_title' => __( 'jQuery Plugins', 'jquery-plugin-loader' ),
+//				'capability' => jQueryPluginLoader::$permission,
+//				'menu_slug' => 'jquery-plugins',
+//				'function' => array( 'jQueryPluginLoader_Admin', 'plugins_page' ),
+//				'icon_url' => plugins_url( 'img/menu-icon.png', dirname( __FILE__ ) ), // @todo FIX
+//				'position' => 67 // @todo FIX
+//			),
+//			array(
+//				'parent_slug' => 'jquery-plugins',
+//				'page_title' => __( 'jQuery Plugins', 'jquery-plugin-loader' ),
+//				'menu_title' => __( 'Plugins' ),
+//				'capability' => jQueryPluginLoader::$permission,
+//				'menu_slug' => 'jquery-plugins',
+//				'function' => array( 'jQueryPluginLoader_Admin', 'plugins_page' )
+//			),
+			array(
+				'parent_slug' => 'options-general.php',
+				'page_title' => __( 'Settings') . ' &rsaquo; ' . __( 'Links', 'extended-link-manager' ),
+				'menu_title' => __( 'Links', 'extended-link-manager' ),
+				'capability' => ExtendedLinkManager::$permission,
+				'menu_slug' => 'exlm-settings',
+				'function' => array( 'ExtendedLinkManager_Admin', 'settings_page' )
+			)
 		);
-		
-		add_action( 'load-'.ExtendedLinkManager::$page, array( 'ExtendedLinkManager_Admin', 'register_assets') );
-	}
+
+		WPCAdmin::register_menus( $menus );
+	} // END admin_menu()
 	
-	static function register_assets() {
-		
-	}
+	static function register_settings() {
+		$settings[] = array(
+			'id' => 'jqpl',
+			'title' => 'Plugin-Loader ' . __('Settings' ),
+			'desc' => __('This is the desc for the section #1 for the plugin loader', 'jquery-plugin-loader' ),
+			'page' => 'settings_page_jqpl-settings',
+			'fields' => array(
+				array(
+					'id'	=> 'jqpl_headjs',
+					'title'	=> 'HeadJS Loader',
+					'type'	=> 'checkbox',
+					'args'	=> array(
+						'desc'	=> 'Use the HeadJS library to load the jQuery plugins'
+					)
+				),
+			),
+		);
+
+		// register_setting( $option_group, $option_name, $sanitize_callback )
+		$register_settings = array(
+			'option_group' => 'settings_page_jqpl-settings',
+			'option_name' => 'settings_page_jqpl-settings',
+			'sanitize_callback' => ''
+		);
+
+		WPCAdmin::register_settings( $settings );
+	} // END register_settings()
+	
+	static function settings_page() {
+		WPCAdmin::generate_settings_page(
+			'options-general',
+			__( 'Link', 'extended-link-manager' ) . ' ' . __( 'Settings' ),
+			'settings_page_exlm-settings'
+		);
+	} // END settings_page()
 	
 	static function set_plugin_meta( $links, $file ) {	
 		if ( $file == plugin_basename( JQPL_BASENAME ) ) {
@@ -57,6 +107,6 @@ class ExtendedLinkManager_Admin {
 			);
 		}
 		return $links;
-	}
+	} // END set_plugin_meta()
 
 } // END class ExtendedLinkManager_Admin
