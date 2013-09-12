@@ -24,6 +24,7 @@ class ExtendedLinkManager_Admin {
 	} // END get_instance()
 	
 	public static function init() {
+		add_action( 'admin_init', array( 'ExtendedLinkManager_Admin', 'register_settings' ) );
 		add_action( 'admin_menu' , array( 'ExtendedLinkManager_Admin', 'admin_menu' ) );
 		add_filter( 'plugin_row_meta', array( 'ExtendedLinkManager_Admin', 'set_plugin_meta' ), 10, 2 );
 	} // END init()
@@ -48,7 +49,7 @@ class ExtendedLinkManager_Admin {
 			'id' => 'exlm',
 			'title' => 'Plugin-Loader ' . __('Settings' ),
 			'desc' => __('This is the desc for the section #1 for the plugin loader', 'jquery-plugin-loader' ),
-			'page_tab' => 'exlm-settings-main',
+			'page_tab' => 'exlm-settings',
 			'fields' => array(
 				array(
 					'id'	=> 'headjs',
@@ -78,9 +79,9 @@ class ExtendedLinkManager_Admin {
 			'exlm-settings-main',
 			'vertical',
 			array( 
-				array( __( 'Main', 'extended-link-manager' ), 'exlm-settings-main'),
-				array( __( 'Second', 'extended-link-manager' ), 'exlm-settings-second'),
-				array( __( 'Third', 'extended-link-manager' ), 'exlm-settings-third')
+				array( __( 'Main', 'extended-link-manager' ), 'exlm-settings-main' ),
+				array( __( 'Second', 'extended-link-manager' ), 'exlm-settings-second' ),
+				array( __( 'Third', 'extended-link-manager' ), 'exlm-settings-third' )
 			)
 		);
 	} // END settings_page()

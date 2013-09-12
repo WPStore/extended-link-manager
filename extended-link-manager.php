@@ -82,8 +82,10 @@ if ( ! class_exists( 'ExtendedLinkManager' ) ) {
 	
 		// load classes from INC path
 		protected function load_classes() {
-			require_once EXLM_PATH . '/wpc/loader.php';
-			WPCLoader::load( self::DEV );
+			if ( ! class_exists( 'WPCLoader' ) ) {
+				require_once EXLM_PATH . '/wpc/loader.php';
+				WPCLoader::load( self::DEV );
+			}
 			
 			if ( self::DEV == true ) {
 				foreach( glob( EXLM_PATH . '/inc/class.*.php', GLOB_NOSORT ) as $class ) {
