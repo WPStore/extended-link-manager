@@ -57,7 +57,7 @@ class ExtendedLinkManager_Init {
 			'supports' => array( 'title' )
 		); 
 
-		$tax_labels = array(
+		$cat_labels = array(
 			'name' => __( 'Categories' ), /* name of the custom taxonomy */
 			'singular_name' => __( 'Category' ), /* single taxonomy name */
 			'search_items' => __( 'Search Categories' ), /* search title for taxomony */
@@ -70,7 +70,7 @@ class ExtendedLinkManager_Init {
 			'new_item_name' => __( 'New Category Name' ) /* name title for taxonomy */
 		);
 		
-		$tax_args = array(
+		$cat_args = array(
 			'hierarchical' => true,
 			'labels' => $tax_labels,
 			'show_admin_column' => true,
@@ -79,8 +79,31 @@ class ExtendedLinkManager_Init {
 			'rewrite' => array( 'slug' => 'links' ) // ???
 		);
 		
+		$tag_labels = array(
+			'name' => __( 'Tags' ), /* name of the custom taxonomy */
+			'singular_name' => __( 'Tag' ), /* single taxonomy name */
+			'search_items' => __( 'Search Tags' ), /* search title for taxomony */
+			'all_items' => __( 'All Tags' ), /* all title for taxonomies */
+			'parent_item' => __( 'Parent Tag' ), /* parent title for taxonomy */
+			'parent_item_colon' => __( 'Parent Tag:' ), /* parent taxonomy title */
+			'edit_item' => __( 'Edit Tag' ), /* edit custom taxonomy title */
+			'update_item' => __( 'Update Tag' ), /* update title for taxonomy */
+			'add_new_item' => __( 'Add New Tag' ), /* add new title for taxonomy */
+			'new_item_name' => __( 'New Tag Name' ) /* name title for taxonomy */
+		);
+		
+		$tag_args = array(
+			'hierarchical' => false,
+			'labels' => $tag_labels,
+			'show_admin_column' => true,
+			'show_ui' => true,
+			'query_var' => true,
+			// 'rewrite' => array( 'slug' => 'links' ) // ???
+		);
+		
 		register_post_type( 'link', $cpt_args );
-		register_taxonomy( 'link-category', 'link', $tax_args );
+		register_taxonomy( 'link-category', 'link', $cat_args );
+		register_taxonomy( 'link-tag', 'link', $tag_args );
 
 	} // END register_cpt
 } // END class ExtendedLinkManager_Init
