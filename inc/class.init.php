@@ -72,7 +72,7 @@ class ExtendedLinkManager_Init {
 		
 		$cat_args = array(
 			'hierarchical' => true,
-			'labels' => $tax_labels,
+			'labels' => $cat_labels,
 			'show_admin_column' => true,
 			'show_ui' => true,
 			'query_var' => true,
