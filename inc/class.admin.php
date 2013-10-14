@@ -49,7 +49,7 @@ class ExtendedLinkManager_Admin {
 			'id' => 'exlm',
 			'title' => 'Plugin-Loader ' . __('Settings' ),
 			'desc' => __('This is the desc for the section #1 for the plugin loader', 'jquery-plugin-loader' ),
-			'page_tab' => 'exlm-settings',
+			'page_tab' => 'exlm-settings-main',
 			'fields' => array(
 				array(
 					'id'	=> 'headjs',
@@ -80,14 +80,14 @@ class ExtendedLinkManager_Admin {
 			'vertical',
 			array( 
 				array( __( 'Main', 'extended-link-manager' ), 'exlm-settings-main' ),
-				array( __( 'Second', 'extended-link-manager' ), 'exlm-settings-second' ),
+				array( __( 'Refresh', 'extended-link-manager' ), 'exlm-settings-second' ),
 				array( __( 'Third', 'extended-link-manager' ), 'exlm-settings-third' )
 			)
 		);
 	} // END settings_page()
 	
 	static function set_plugin_meta( $links, $file ) {	
-		if ( $file == plugin_basename( JQPL_BASENAME ) ) {
+		if ( $file == plugin_basename( EXLM_BASENAME ) ) {
 			return array_merge(
 				$links,
 				array( 
