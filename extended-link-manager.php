@@ -2,8 +2,6 @@
 /*
 Plugin Name: Extended Link-Manager
 Plugin URI: https://github.com/wp-cloud/extended-link-manager
-GitHub Plugin URI: https://github.com/wp-cloud/extended-link-manager
-Issues URI: https://github.com/wp-cloud/extended-link-manager/issues
 Description: @TODO
 Version: 1.0-dev
 Author: Foe Services
@@ -37,7 +35,10 @@ if ( ! function_exists( 'add_filter' ) ) {
 	exit();
 }
 
-if ( ! class_exists( 'ExtendedLinkManager' ) ) {
+/** Load all of the necessary class files for the plugin */
+spl_autoload_register( 'Exlm::autoload' );
+
+if ( ! class_exists( 'Exlm' ) ) {
 
 	// =============
 	// Plugin basename
@@ -46,59 +47,86 @@ if ( ! class_exists( 'ExtendedLinkManager' ) ) {
 	// Plugin basedir/path
 	define( 'EXLM_PATH', dirname( __FILE__ ) );
 	// =============
-	
-	add_action(
-		'plugins_loaded', 
-		array( 'ExtendedLinkManager', 'get_instance' )
-	);
 
-	class ExtendedLinkManager {
-		// activate development mode
-		const DEV = true;
+	class Exlm {
 		
-		// Plugin instance + variables
-		protected static $instance = NULL;
 		static $permission = 'edit_theme_options';
-		
+
+		/**
+		 * Holds a copy of the object for easy reference.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @var object
+		 */
+		private static $instance;
+
+		/**
+		 * Current version of the plugin.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @var string
+		 */
+		public $version = '1.0-dev';
+
+		/**
+		 * Holds a copy of the main plugin filepath.
+		 *
+		 * @since 1.2.0
+		 *
+		 * @var string
+		 */
+		private static $file = __FILE__;
+
+		/**
+		 * Constructor. Hooks all interactions into correct areas to start
+		 * the class.
+		 *
+		 * @since 1.0.0
+		 */
 		public function __construct() {
+
+			self::$instance = $this;
 			
-			$this->load_classes();
+			$exlm_init = new Exlm_Init();
+			$exlm_admin = new Exlm_Admin();
+			$exlm_frontend = new Exlm_Frontend();
 			
-			ExtendedLinkManager_Init::init();
-			ExtendedLinkManager_Admin::init();
-			ExtendedLinkManager_Frontend::init();
-			
-			register_activation_hook( __FILE__, array( 'ExtendedLinkManager', 'activate' ) );
-			register_deactivation_hook( __FILE__, array( 'ExtendedLinkManager', 'deactivate' ) );
-		} // END __construct()
-        
-		// Access this plugin’s working instance
+			register_activation_hook( __FILE__, array( 'Exlm', 'activate' ) );
+			register_deactivation_hook( __FILE__, array( 'Exlm', 'deactivate' ) );
+
+		}
+		
+		/**
+		 * PSR-0 compliant autoloader to load classes as needed.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $classname The name of the class
+		 * @return null Return early if the class name does not start with the correct prefix
+		 */
+		public static function autoload( $classname ) {
+
+			if ( 'Exlm' !== mb_substr( $classname, 0, 4 ) )
+				return;
+
+			$filename = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . str_replace( '_', DIRECTORY_SEPARATOR, $classname ) . '.php';
+			if ( file_exists( $filename ) )
+				require $filename;
+
+		}
+
+		/**
+		 * Getter method for retrieving the object instance.
+		 *
+		 * @since 1.0.0
+		 */
 		public static function get_instance() {
-			if ( NULL === self::$instance )
-				self::$instance = new self;
 
 			return self::$instance;
-		} // END get_instance()      
-	
-		// load classes from INC path
-		protected function load_classes() {
-			if ( ! class_exists( 'WPCLoader' ) ) {
-				require_once EXLM_PATH . '/wpc/loader.php';
-				WPCLoader::load( self::DEV );
-			}
-			
-			if ( self::DEV == true ) {
-				foreach( glob( EXLM_PATH . '/inc/class.*.php', GLOB_NOSORT ) as $class ) {
-					require_once $class;
-				}
-			} else {
-				// static loading of classes
-				require_once '/inc/class.init.php';
-				require_once '/inc/class.admin.php';
-				require_once '/inc/class.frontend.php';
-			}
-			
-		} // END load_classes()
+
+		} // END get_instance() 
 		
 		public function activate() {
 			flush_rewrite_rules();
@@ -109,4 +137,7 @@ if ( ! class_exists( 'ExtendedLinkManager' ) ) {
 		} // END deactivate()
 	
 	} // END class ExtendedLinkManager
+	
+	$extended_link_manager = new Extended_Link_Manager();
+	
 } // END if class_exists

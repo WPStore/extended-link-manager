@@ -10,12 +10,30 @@ if ( ! function_exists( 'add_filter' ) ) {
 	exit();
 }
 
-class ExtendedLinkManager_Init {
+class Exlm_Init {
 	
-	public static function init() {
-		add_action( 'init' , array( 'ExtendedLinkManager_Init', 'register_cpt' ) );
+	/**
+	 * Holds a copy of the object for easy reference.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var object
+	 */
+	private static $instance;
+
+	/**
+	 * Constructor. Hooks all interactions to initialize the class.
+	 *
+	 * @since 1.0.0
+	 */
+	public function __construct() {
+
+		self::$instance = $this;
+
+		add_action( 'init' , array( 'Exlm_Init', 'register_cpt' ) );
 		
 		load_plugin_textdomain( 'extended-link-manager' , false, EXLM_PATH . '/languages' );
+		
 	}
 	
 	// @TODO rewrite_flush!!
@@ -106,4 +124,16 @@ class ExtendedLinkManager_Init {
 		register_taxonomy( 'link-tag', 'link', $tag_args );
 
 	} // END register_cpt
+	
+	/**
+	 * Getter method for retrieving the object instance.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function get_instance() {
+
+		return self::$instance;
+
+	} // END get_instance()
+
 } // END class ExtendedLinkManager_Init
