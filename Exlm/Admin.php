@@ -40,11 +40,11 @@ class Exlm_Admin {
 		add_options_page(
 			__( 'Settings') . ' &rsaquo; ' . __( 'Links', 'extended-link-manager' ),
 			__( 'Links', 'extended-link-manager' ),
-			Exlm::get_instance()->permission,
+			add_filter( 'exlm_settings_permission', 'edit_theme_options' ),
 			'exlm-settings',
 			array( 'Exlm_Admin', 'settings_page' )
 		);
-
+		
 	} // END admin_menu()
 	
 	static function register_settings() {

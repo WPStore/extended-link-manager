@@ -38,106 +38,94 @@ if ( ! function_exists( 'add_filter' ) ) {
 /** Load all of the necessary class files for the plugin */
 spl_autoload_register( 'Exlm::autoload' );
 
-if ( ! class_exists( 'Exlm' ) ) {
+class Exlm {
 
-	// =============
-	// Plugin basename
-	define( 'EXLM_BASENAME', plugin_basename( __FILE__ ) );
-	// =============
-	// Plugin basedir/path
-	define( 'EXLM_PATH', dirname( __FILE__ ) );
-	// =============
+	static $permission = 'edit_theme_options';
 
-	class Exlm {
-		
-		static $permission = 'edit_theme_options';
+	/**
+	 * Holds a copy of the object for easy reference.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var object
+	 */
+	private static $instance;
 
-		/**
-		 * Holds a copy of the object for easy reference.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @var object
-		 */
-		private static $instance;
+	/**
+	 * Current version of the plugin.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
+	public $version = '1.0-dev';
 
-		/**
-		 * Current version of the plugin.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @var string
-		 */
-		public $version = '1.0-dev';
+	/**
+	 * Holds a copy of the main plugin filepath.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @var string
+	 */
+	private static $file = __FILE__;
 
-		/**
-		 * Holds a copy of the main plugin filepath.
-		 *
-		 * @since 1.2.0
-		 *
-		 * @var string
-		 */
-		private static $file = __FILE__;
+	/**
+	 * Constructor. Hooks all interactions into correct areas to start
+	 * the class.
+	 *
+	 * @since 1.0.0
+	 */
+	public function __construct() {
 
-		/**
-		 * Constructor. Hooks all interactions into correct areas to start
-		 * the class.
-		 *
-		 * @since 1.0.0
-		 */
-		public function __construct() {
+		self::$instance = $this;
 
-			self::$instance = $this;
-			
-			$exlm_init = new Exlm_Init();
-			$exlm_admin = new Exlm_Admin();
-			$exlm_frontend = new Exlm_Frontend();
-			
-			register_activation_hook( __FILE__, array( 'Exlm', 'activate' ) );
-			register_deactivation_hook( __FILE__, array( 'Exlm', 'deactivate' ) );
+		$exlm_init = new Exlm_Init();
+		$exlm_admin = new Exlm_Admin();
+		$exlm_frontend = new Exlm_Frontend();
 
-		}
-		
-		/**
-		 * PSR-0 compliant autoloader to load classes as needed.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $classname The name of the class
-		 * @return null Return early if the class name does not start with the correct prefix
-		 */
-		public static function autoload( $classname ) {
+		register_activation_hook( __FILE__, array( 'Exlm', 'activate' ) );
+		register_deactivation_hook( __FILE__, array( 'Exlm', 'deactivate' ) );
 
-			if ( 'Exlm' !== mb_substr( $classname, 0, 4 ) )
-				return;
+	}
 
-			$filename = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . str_replace( '_', DIRECTORY_SEPARATOR, $classname ) . '.php';
-			if ( file_exists( $filename ) )
-				require $filename;
+	/**
+	 * PSR-0 compliant autoloader to load classes as needed.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $classname The name of the class
+	 * @return null Return early if the class name does not start with the correct prefix
+	 */
+	public static function autoload( $classname ) {
 
-		}
+		if ( 'Exlm' !== mb_substr( $classname, 0, 4 ) )
+			return;
 
-		/**
-		 * Getter method for retrieving the object instance.
-		 *
-		 * @since 1.0.0
-		 */
-		public static function get_instance() {
+		$filename = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . str_replace( '_', DIRECTORY_SEPARATOR, $classname ) . '.php';
+		if ( file_exists( $filename ) )
+			require $filename;
 
-			return self::$instance;
+	}
 
-		} // END get_instance() 
-		
-		public function activate() {
-			flush_rewrite_rules();
-		} // END activate()
-		
-		public function deactivate() {
-			flush_rewrite_rules();
-		} // END deactivate()
+	/**
+	 * Getter method for retrieving the object instance.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function get_instance() {
+
+		return self::$instance;
+
+	} // END get_instance() 
+
+	public function activate() {
+		flush_rewrite_rules();
+	} // END activate()
+
+	public function deactivate() {
+		flush_rewrite_rules();
+	} // END deactivate()
+
+} // END class ExtendedLinkManager
 	
-	} // END class ExtendedLinkManager
-	
-	$extended_link_manager = new Extended_Link_Manager();
-	
-} // END if class_exists
+$exlm = new Exlm();
