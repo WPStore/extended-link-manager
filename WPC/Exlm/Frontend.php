@@ -1,12 +1,12 @@
 <?php
 //avoid direct calls to this file
 if ( ! function_exists( 'add_filter' ) ) {
-	header('Status: 403 Forbidden');
-	header('HTTP/1.1 403 Forbidden');
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
 
-class Exlm_Frontend {
+class WPC_Exlm_Frontend {
 	
 	/**
 	 * Holds a copy of the object for easy reference.
@@ -25,12 +25,9 @@ class Exlm_Frontend {
 	public function __construct() {
 
 		self::$instance = $this;
-
-		if ( is_admin() )
-			return NULL;
 		
 	} // END __construct()
-    
+	
 	/**
 	 * Getter method for retrieving the object instance.
 	 *

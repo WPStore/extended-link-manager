@@ -30,15 +30,15 @@ Domain Path: /languages
 
 //avoid direct calls to this file
 if ( ! function_exists( 'add_filter' ) ) {
-	header('Status: 403 Forbidden');
-	header('HTTP/1.1 403 Forbidden');
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
 
 /** Load all of the necessary class files for the plugin */
-spl_autoload_register( 'Exlm::autoload' );
+spl_autoload_register( 'WPC_Exlm::autoload' );
 
-class Exlm {
+class WPC_Exlm {
 
 	static $permission = 'edit_theme_options';
 
@@ -79,12 +79,12 @@ class Exlm {
 
 		self::$instance = $this;
 
-		$exlm_init = new Exlm_Init();
-		$exlm_admin = new Exlm_Admin();
-		$exlm_frontend = new Exlm_Frontend();
+		$wpc_exlm_init     = new WPC_Exlm_Init();
+		$wpc_exlm_admin    = new WPC_Exlm_Admin();
+		$wpc_exlm_frontend = new WPC_Exlm_Frontend();
 
-		register_activation_hook( __FILE__, array( 'Exlm', 'activate' ) );
-		register_deactivation_hook( __FILE__, array( 'Exlm', 'deactivate' ) );
+		register_activation_hook( __FILE__, array( 'WPC_Exlm', 'activate' ) );
+		register_deactivation_hook( __FILE__, array( 'WPC_Exlm', 'deactivate' ) );
 
 	}
 
@@ -98,7 +98,7 @@ class Exlm {
 	 */
 	public static function autoload( $classname ) {
 
-		if ( 'Exlm' !== mb_substr( $classname, 0, 4 ) )
+		if ( 'WPC' !== mb_substr( $classname, 0, 3 ) )
 			return;
 
 		$filename = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . str_replace( '_', DIRECTORY_SEPARATOR, $classname ) . '.php';

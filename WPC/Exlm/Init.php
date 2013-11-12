@@ -5,12 +5,12 @@
 
 //avoid direct calls to this file
 if ( ! function_exists( 'add_filter' ) ) {
-	header('Status: 403 Forbidden');
-	header('HTTP/1.1 403 Forbidden');
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
 
-class Exlm_Init {
+class WPC_Exlm_Init {
 	
 	/**
 	 * Holds a copy of the object for easy reference.
@@ -30,13 +30,17 @@ class Exlm_Init {
 
 		self::$instance = $this;
 
-		add_action( 'init' , array( 'Exlm_Init', 'register_cpt' ) );
+		add_action( 'init' , array( 'WPC_Exlm_Init', 'register_cpt' ) );
 		
-		load_plugin_textdomain( 'extended-link-manager' , false, EXLM_PATH . '/languages' );
+		load_plugin_textdomain( 'extended-link-manager' , false, WPC_Exlm::get_instance()->file . '/languages' );
 		
 	}
 	
-	// @TODO rewrite_flush!!
+	/**
+	 * Desc.
+	 *
+	 * @since 1.0.0
+	 */
 	static function register_cpt() {
 		$cpt_labels = array(
 			'name' => __( 'Links', 'extended-link-manager' ),
@@ -65,7 +69,7 @@ class Exlm_Init {
 			'query_var' => true,
 			'rewrite' => array(
 				'slug' => 'link',
-				'with_front' => true
+				'with_front' => true,
 			),
 			'capability_type' => 'post',
 			'has_archive' => 'links',
