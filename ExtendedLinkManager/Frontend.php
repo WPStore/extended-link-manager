@@ -1,13 +1,23 @@
 <?php
+/**
+ * @author		WP-Cloud <code@wp-cloud.de>
+ * @copyright	Copyright (c) 2014, WP-Cloud
+ * @license		http://www.gnu.org/licenses/gpl-2.0.html GPLv2
+ * @package		WPC\ExtendedLinkManager\Frontend
+ */
+
+/** Namespaces */
+// namespace WPC\ExtendedLinkManager;
+
 //avoid direct calls to this file
-if ( ! function_exists( 'add_filter' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
 
-class WPC_Exlm_Frontend {
-	
+class WPC_ExtendedLinkManager_Frontend {
+
 	/**
 	 * Holds a copy of the object for easy reference.
 	 *
@@ -25,9 +35,9 @@ class WPC_Exlm_Frontend {
 	public function __construct() {
 
 		self::$instance = $this;
-		
+
 	} // END __construct()
-	
+
 	/**
 	 * Getter method for retrieving the object instance.
 	 *
@@ -39,4 +49,4 @@ class WPC_Exlm_Frontend {
 
 	} // END get_instance()
 
-} // END class ExtendedLinkManager_Frontend
+} // END class WPC_ExtendedLinkManager_Frontend

@@ -1,18 +1,26 @@
 <?php
+/**
+ * @author		WP-Cloud <code@wp-cloud.org>
+ * @copyright	Copyright (c) 2014, WP-Cloud
+ * @license		http://www.gnu.org/licenses/gpl-2.0.html GPLv2
+ * @package		WPC\ExtendedLinkManager
+ * @version		1.0
+ */
+
 /*
 Plugin Name: Extended Link-Manager
 Plugin URI: https://github.com/wp-cloud/extended-link-manager
 Description: @TODO
-Version: 1.0-dev
-Author: Foe Services
-Author URI: http://www.foe-services.de/
+Version: 1.0
+Author: WP-Cloud
+Author URI: http://www.wp-cloud.de
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: extended-link-manager
 Domain Path: /languages
 
     Extended Link-Manager
-    Copyright (C) 2013 Foe Services (http://foe-services.de)
+    Copyright (C) 2014 WP-Cloud (http://www.wp-cloud.de)
 
     This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
@@ -28,104 +36,204 @@ Domain Path: /languages
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * @todo Development notes for Extended Link-Manager:
+ * - use 'namespaces'
+ * - use autoloader with APC support
+ */
+
+/** Namespaces */
+// namespace WPC;
+
 //avoid direct calls to this file
-if ( ! function_exists( 'add_filter' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
 
 /** Load all of the necessary class files for the plugin */
-spl_autoload_register( 'WPC_Exlm::autoload' );
+spl_autoload_register( 'WPC_ExtendedLinkManager::autoload' );
 
-class WPC_Exlm {
+/**
+ * Main class to run the plugin
+ *
+ * @since	1.0.0
+ */
+class WPC_ExtendedLinkManager {
 
 	static $permission = 'edit_theme_options';
-
 	/**
 	 * Holds a copy of the object for easy reference.
 	 *
-	 * @since 1.0.0
-	 *
-	 * @var object
+	 * @static
+	 * @access	private
+	 * @since	1.0.0
 	 */
 	private static $instance;
 
 	/**
 	 * Current version of the plugin.
 	 *
-	 * @since 1.0.0
-	 *
-	 * @var string
+	 * @var		string
+	 * @access	public
+	 * @since	1.0.0
 	 */
-	public $version = '1.0-dev';
+	public $version = '1.0';
 
 	/**
 	 * Holds a copy of the main plugin filepath.
 	 *
-	 * @since 1.2.0
-	 *
-	 * @var string
+	 * @var		string
+	 * @access	private
+	 * @since	1.0.0
 	 */
 	private static $file = __FILE__;
 
 	/**
-	 * Constructor. Hooks all interactions into correct areas to start
-	 * the class.
+	 * Constructor. Hooks all interactions to initialize the class.
 	 *
-	 * @since 1.0.0
+	 * @access	public
+	 * @since	1.0.0
 	 */
 	public function __construct() {
 
 		self::$instance = $this;
 
-		$wpc_exlm_init     = new WPC_Exlm_Init();
-		$wpc_exlm_admin    = new WPC_Exlm_Admin();
-		$wpc_exlm_frontend = new WPC_Exlm_Frontend();
+//		add_action( 'widgets_init', array( $this, 'widget' ) );
+		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
 
-		register_activation_hook( __FILE__, array( 'WPC_Exlm', 'activate' ) );
-		register_deactivation_hook( __FILE__, array( 'WPC_Exlm', 'deactivate' ) );
+		$wpc_exlm_global = new WPC_ExtendedLinkManager_Init();
 
-	}
+		if ( !is_admin() ) {
+
+			$wpc_exlm_frontend = new WPC_ExtendedLinkManager_Frontend();
+
+		}
+
+		if ( is_admin() ) {
+
+			$wpc_exlm_admin = new WPC_ExtendedLinkManager_Admin();
+
+		}
+
+//		register_activation_hook( __FILE__, array( 'ExtendedLinkManager', 'activate_plugin' ) );
+//		register_deactivation_hook( __FILE__, array( 'ExtendedLinkManager', 'deactivate_plugin' ) );
+
+	} // END __construct()
 
 	/**
 	 * PSR-0 compliant autoloader to load classes as needed.
 	 *
-	 * @since 1.0.0
+	 * @static
+	 * @access	public
+	 * @since	1.0.0
 	 *
-	 * @param string $classname The name of the class
-	 * @return null Return early if the class name does not start with the correct prefix
+	 * @param	string	$classname The name of the class
+	 * @return	null	Return early if the class name does not start with the correct prefix
 	 */
 	public static function autoload( $classname ) {
 
-		if ( 'WPC' !== mb_substr( $classname, 0, 3 ) )
+		if ( 'WPC_ExtendedLinkManager' !== mb_substr( $classname, 0, 23 ) ) {
 			return;
+		}
 
-		$filename = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . str_replace( '_', DIRECTORY_SEPARATOR, $classname ) . '.php';
-		if ( file_exists( $filename ) )
+		$class = substr( $classname, 4 );
+		$filename = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . str_replace( '_', DIRECTORY_SEPARATOR, $class ) . '.php';
+
+		if ( file_exists( $filename ) ) {
 			require $filename;
+		}
 
-	}
+	} // END autoload()
 
 	/**
 	 * Getter method for retrieving the object instance.
 	 *
-	 * @since 1.0.0
+	 * @static
+	 * @access	public
+	 * @since	1.0.0
+	 *
+	 * @return	object	self::$instance
 	 */
 	public static function get_instance() {
 
 		return self::$instance;
 
-	} // END get_instance() 
+	} // END get_instance()
 
-	public function activate() {
-		flush_rewrite_rules();
-	} // END activate()
+	/**
+	 * Getter method for retrieving the main plugin filepath.
+	 *
+	 * @static
+	 * @access	public
+	 * @since	1.0.0
+	 *
+	 * @return	string	self::$file
+	 */
+	public static function get_file() {
 
-	public function deactivate() {
-		flush_rewrite_rules();
-	} // END deactivate()
+		return self::$file;
 
-} // END class ExtendedLinkManager
-	
-$exlm = new Exlm();
+	} // END get_file()
+
+	/**
+	 * Load the plugin's textdomain hooked to 'plugins_loaded'.
+	 *
+	 * @action	plugins_loaded
+	 * @uses	load_plugin_textdomain()
+	 * @uses	dirname()
+	 * @uses	plugin_basename()
+	 *
+	 * @access	private
+	 * @since	1.0.0
+	 */
+	public function load_plugin_textdomain() {
+
+		load_plugin_textdomain(
+			'extended-link-manager',
+			false,
+			dirname( plugin_basename( __FILE__ ) ) . '/languages/'
+		);
+
+	} // END load_plugin_textdomain()
+
+	/**
+	 * Fired when plugin is activated
+	 *
+	 * @action	register_activation_hook
+	 *
+	 * @access	public	@todo
+	 * @since	1.0.0
+	 *
+	 * @param	bool	$network_wide TRUE if WPMU 'super admin' uses Network Activate option
+	 */
+	public function activate_plugin( $network_wide ) {
+
+	} // END activate_plugin()
+
+	/**
+	 * Fired when plugin is deactivated
+	 *
+	 * @action	register_deactivation_hook
+	 *
+	 * @access	public	@todo
+	 * @since	1.0.0
+	 *
+	 * @param	bool	$network_wide TRUE if WPMU 'super admin' uses Network Activate option
+	 */
+	public function deactivate_plugin( $network_wide ) {
+
+	} // END deactivate_plugin()
+
+} // END class WPC_Exlm
+
+/**
+ * Instantiate the main class
+ *
+ * @since	1.0.0
+ * @access	public
+ *
+ * @var	object	$wpc_exlm holds the instantiated class {@uses WPC_ExtendedLinkManager}
+ */
+$wpc_exlm = new WPC_ExtendedLinkManager();

@@ -1,13 +1,23 @@
 <?php
+/**
+ * @author		WP-Cloud <code@wp-cloud.de>
+ * @copyright	Copyright (c) 2014, WP-Cloud
+ * @license		http://www.gnu.org/licenses/gpl-2.0.html GPLv2
+ * @package		WPC\ExtendedLinkManager\Admin
+ */
+
+/** Namespaces */
+// namespace WPC\ExtendedLinkManager;
+
 //avoid direct calls to this file
-if ( ! function_exists( 'add_filter' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
 
-class WPC_Exlm_Admin {
-	
+class WPC_ExtendedLinkManager_Admin {
+
 	/**
 	 * Holds a copy of the object for easy reference.
 	 *
@@ -25,93 +35,73 @@ class WPC_Exlm_Admin {
 	public function __construct() {
 
 		self::$instance = $this;
-		
-		add_action( 'admin_init', array( 'WPC_Exlm_Admin', 'register_settings' ) );
-		add_action( 'admin_menu' , array( 'WPC_Exlm_Admin', 'admin_menu' ) );
-		add_filter( 'plugin_row_meta', array( 'WPC_Exlm_Admin', 'set_plugin_meta' ), 10, 2 );
-		
+
+		add_action( 'admin_init', array( $this, 'register_settings' ) );
+		add_action( 'admin_menu' , array( $this, 'admin_menu' ) );
+//		add_filter( 'plugin_row_meta', array( $this, 'set_plugin_meta' ), 10, 2 );
+
 	} // END __construct()
-	
+
 	/**
 	 * Desc.
 	 *
 	 * @since 1.0.0
-	 */	
-	static function admin_menu() {
-		
+	 */
+	public function admin_menu() {
+
 		add_options_page(
-			__( 'Settings' ) . ' &rsaquo; ' . __( 'Links', 'extended-link-manager' ),
-			__( 'Links', 'extended-link-manager' ),
-			add_filter( 'exlm_settings_permission', 'edit_theme_options' ),
+			__( 'Link-Manager Settings', 'extended-link-manager' ),
+			__( 'Link-Manager', 'extended-link-manager' ),
+			apply_filters( 'exlm_settings_permission', 'edit_theme_options' ),
 			'exlm-settings',
-			array( 'Exlm_Admin', 'settings_page' )
+			array( $this, 'settings_page' )
 		);
-		
+
 	} // END admin_menu()
-	
+
 	/**
 	 * Desc.
 	 *
 	 * @since 1.0.0
-	 */	
-	static function register_settings() {
-		$settings[] = array(
-			'id' => 'exlm',
-			'title' => 'Plugin-Loader ' . __( 'Settings' ),
-			'desc' => __( 'This is the desc for the section #1 for the plugin loader', 'jquery-plugin-loader' ),
-			'page_tab' => 'exlm-settings-main',
-			'fields' => array(
-				array(
-					'id'	=> 'headjs',
-					'title'	=> 'HeadJS Loader',
-					'type'	=> 'checkbox',
-					'args'	=> array(
-						'desc'	=> 'Use the HeadJS library to load the jQuery plugins',
-					)
-				),
-			),
-		);
-
-//		register_setting( $option_group, $option_name, $sanitize_callback );
-//		$register_settings = array(
-//			'option_group' => 'settings_page_jqpl-settings',
-//			'option_name' => 'settings_page_jqpl-settings',
-//			'sanitize_callback' => ''
-//		);
-
-		// WPCAdmin::register_settings( $settings );
-		
+	 */
+	public function register_settings() {
 	} // END register_settings()
-	
+
 	/**
 	 * Desc.
 	 *
 	 * @since 1.0.0
-	 */	
-	static function settings_page() {
+	 */
+	public function settings_page() { ?>
+
+		<div class="wrap">
+			<h2><?php _e( 'Link-Manager Settings', 'extended-link-manager' ); ?></h2>
+		</div><!-- .wrap -->
+
+	<?php
 //		WPCAdmin::settings_page(
 //			'options-general',
 //			__( 'Link', 'extended-link-manager' ) . ' ' . __( 'Settings' ),
 //			'exlm-settings-main',
 //			'vertical',
-//			array( 
+//			array(
 //				array( __( 'Main', 'extended-link-manager' ), 'exlm-settings-main' ),
 //				array( __( 'Refresh', 'extended-link-manager' ), 'exlm-settings-second' ),
 //				array( __( 'Third', 'extended-link-manager' ), 'exlm-settings-third' )
 //			)
 //		);
 	} // END settings_page()
-	
+
 	/**
 	 * Desc.
 	 *
 	 * @since 1.0.0
-	 */	
-	static function set_plugin_meta( $links, $file ) {	
+	 */
+	public function set_plugin_meta( $links, $file ) {
 		if ( $file == plugin_basename( EXLM_BASENAME ) ) {
 			return array_merge(
 				$links,
-				array( 
+				array(
 					'<a href="https://github.com/wp-cloud/extended-link-manager" target="_blank">GitHub</a>',
 					'<a href="https://github.com/wp-cloud/extended-link-manager/issues" target="_blank">Issues</a>',
 				)
@@ -119,7 +109,7 @@ class WPC_Exlm_Admin {
 		}
 		return $links;
 	} // END set_plugin_meta()
-	
+
 	/**
 	 * Getter method for retrieving the object instance.
 	 *
@@ -131,4 +121,4 @@ class WPC_Exlm_Admin {
 
 	} // END get_instance()
 
-} // END class Exlm_Admin
+} // END class WPC_ExtendedLinkManager_Admin
