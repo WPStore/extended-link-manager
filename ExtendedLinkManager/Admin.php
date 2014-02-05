@@ -1,6 +1,6 @@
 <?php
 /**
- * @author		WP-Cloud <code@wp-cloud.de>
+ * @author		WP-Cloud <code@wp-cloud.org>
  * @copyright	Copyright (c) 2014, WP-Cloud
  * @license		http://www.gnu.org/licenses/gpl-2.0.html GPLv2
  * @package		WPC\ExtendedLinkManager\Admin
@@ -16,6 +16,11 @@ if ( !defined( 'ABSPATH' ) ) {
 	exit();
 }
 
+/**
+ * @todo
+ *
+ * @since	1.0.0
+ */
 class WPC_ExtendedLinkManager_Admin {
 
 	/**
@@ -41,6 +46,17 @@ class WPC_ExtendedLinkManager_Admin {
 //		add_filter( 'plugin_row_meta', array( $this, 'set_plugin_meta' ), 10, 2 );
 
 	} // END __construct()
+
+	/**
+	 * Getter method for retrieving the object instance.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function get_instance() {
+
+		return self::$instance;
+
+	} // END get_instance()
 
 	/**
 	 * Desc.
@@ -98,7 +114,7 @@ class WPC_ExtendedLinkManager_Admin {
 	 * @since 1.0.0
 	 */
 	public function set_plugin_meta( $links, $file ) {
-		if ( $file == plugin_basename( EXLM_BASENAME ) ) {
+		if ( $file == plugin_basename( EXLM_BASENAME ) ) { // @todo
 			return array_merge(
 				$links,
 				array(
@@ -109,16 +125,5 @@ class WPC_ExtendedLinkManager_Admin {
 		}
 		return $links;
 	} // END set_plugin_meta()
-
-	/**
-	 * Getter method for retrieving the object instance.
-	 *
-	 * @since 1.0.0
-	 */
-	public static function get_instance() {
-
-		return self::$instance;
-
-	} // END get_instance()
 
 } // END class WPC_ExtendedLinkManager_Admin

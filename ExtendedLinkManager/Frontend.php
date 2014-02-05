@@ -1,6 +1,6 @@
 <?php
 /**
- * @author		WP-Cloud <code@wp-cloud.de>
+ * @author		WP-Cloud <code@wp-cloud.org>
  * @copyright	Copyright (c) 2014, WP-Cloud
  * @license		http://www.gnu.org/licenses/gpl-2.0.html GPLv2
  * @package		WPC\ExtendedLinkManager\Frontend
@@ -16,6 +16,11 @@ if ( !defined( 'ABSPATH' ) ) {
 	exit();
 }
 
+/**
+ * @todo
+ *
+ * @since	1.0.0
+ */
 class WPC_ExtendedLinkManager_Frontend {
 
 	/**

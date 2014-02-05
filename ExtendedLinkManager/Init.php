@@ -1,6 +1,6 @@
 <?php
 /**
- * @author		WP-Cloud <code@wp-cloud.de>
+ * @author		WP-Cloud <code@wp-cloud.org>
  * @copyright	Copyright (c) 2014, WP-Cloud
  * @license		http://www.gnu.org/licenses/gpl-2.0.html GPLv2
  * @package		WPC\ExtendedLinkManager
@@ -16,6 +16,11 @@ if ( !defined( 'ABSPATH' ) ) {
 	exit();
 }
 
+/**
+ * @todo
+ *
+ * @since	1.0.0
+ */
 class WPC_ExtendedLinkManager_Init {
 
 	/**
@@ -28,17 +33,6 @@ class WPC_ExtendedLinkManager_Init {
 	private static $instance;
 
 	/**
-	 * Getter method for retrieving the object instance.
-	 *
-	 * @since 1.0.0
-	 */
-	public static function get_instance() {
-
-		return self::$instance;
-
-	} // END get_instance()
-
-	/**
 	 * Constructor. Hooks all interactions to initialize the class.
 	 *
 	 * @since 1.0.0
@@ -49,7 +43,18 @@ class WPC_ExtendedLinkManager_Init {
 
 		add_action( 'init' , array( $this, 'register_cpt' ) );
 
-	}
+	} // END __construct()
+
+	/**
+	 * Getter method for retrieving the object instance.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function get_instance() {
+
+		return self::$instance;
+
+	} // END get_instance()
 
 	/**
 	 * Desc.

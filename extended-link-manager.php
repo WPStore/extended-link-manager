@@ -123,6 +123,21 @@ class WPC_ExtendedLinkManager {
 	} // END __construct()
 
 	/**
+	 * Getter method for retrieving the object instance.
+	 *
+	 * @static
+	 * @access	public
+	 * @since	1.0.0
+	 *
+	 * @return	object	self::$instance
+	 */
+	public static function get_instance() {
+
+		return self::$instance;
+
+	} // END get_instance()
+
+	/**
 	 * PSR-0 compliant autoloader to load classes as needed.
 	 *
 	 * @static
@@ -146,21 +161,6 @@ class WPC_ExtendedLinkManager {
 		}
 
 	} // END autoload()
-
-	/**
-	 * Getter method for retrieving the object instance.
-	 *
-	 * @static
-	 * @access	public
-	 * @since	1.0.0
-	 *
-	 * @return	object	self::$instance
-	 */
-	public static function get_instance() {
-
-		return self::$instance;
-
-	} // END get_instance()
 
 	/**
 	 * Getter method for retrieving the main plugin filepath.
