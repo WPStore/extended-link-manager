@@ -6,7 +6,6 @@
  * @package		WPC\ExtendedLinkManager
  * @version		1.0
  */
-
 /*
 Plugin Name: Extended Link-Manager
 Plugin URI: https://github.com/wp-cloud/extended-link-manager
@@ -103,17 +102,17 @@ class WPC_ExtendedLinkManager {
 //		add_action( 'widgets_init', array( $this, 'widget' ) );
 		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
 
-		$wpc_exlm_global = new WPC_ExtendedLinkManager_Init();
+		new WPC_ExtendedLinkManager_Init();
 
 		if ( !is_admin() ) {
 
-			$wpc_exlm_frontend = new WPC_ExtendedLinkManager_Frontend();
+			new WPC_ExtendedLinkManager_Frontend();
 
 		}
 
 		if ( is_admin() ) {
 
-			$wpc_exlm_admin = new WPC_ExtendedLinkManager_Admin();
+			new WPC_ExtendedLinkManager_Admin();
 
 		}
 
@@ -121,6 +120,28 @@ class WPC_ExtendedLinkManager {
 //		register_deactivation_hook( __FILE__, array( 'ExtendedLinkManager', 'deactivate_plugin' ) );
 
 	} // END __construct()
+
+	/**
+	 * The default value for the settings.
+	 *
+	 * @since	1.0.0
+	 * @access	public
+	 *
+	 * @see		apply_filters()
+	 *
+	 * @return	array
+	 */
+	public function get_defaults() {
+
+		$defaults = array(
+			'comment' => true,
+		);
+
+		$options = apply_filters( 'wpc_exlm_defaults', $defaults );
+
+		return $options;
+
+	} // END get_defaults()
 
 	/**
 	 * Getter method for retrieving the object instance.
@@ -236,4 +257,5 @@ class WPC_ExtendedLinkManager {
  *
  * @var	object	$wpc_exlm holds the instantiated class {@uses WPC_ExtendedLinkManager}
  */
+global $wpc_exlm;
 $wpc_exlm = new WPC_ExtendedLinkManager();
