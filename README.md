@@ -1,5 +1,7 @@
 # Extended Link-Manager
-__@TODO__
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/wp-cloud/extended-link-manager/badges/quality-score.png?s=ffd39f416e4c4fce1c6ccb7cf0147d70e8d3792a)](https://scrutinizer-ci.com/g/wp-cloud/extended-link-manager/)
+
+@todo short description
 
 | *                 | WordPress					| Version			| *		| Development				|					|
 | :----             | ----:						| :----				| :---: | :----						| :----				|
@@ -16,16 +18,7 @@ __@TODO__
 
 
 ### Description
-Coming Soon
-
-
-## Developers
-| Name					| GitHub				| WordPress.org			| Web									| Status				|
-| :----					| :----					| :----					| :----									| ----:					|
-| Christian Foellmann	| [cfoellmann][2.1.1]	| [cfoellmann][2.1.2]	| http://www.foe-services.de			| Current maintainer	|
-
-[2.1.1]: https://github.com/cfoellmann
-[2.1.2]: http://profiles.wordpress.org/cfoellmann
+@todo long description
 
 
 ## License
@@ -48,6 +41,6 @@ __[GPLv2 or later](http://www.gnu.org/licenses/gpl-2.0.html)__
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-__MORE__
-* [Changelog](../../blob/master/CHANGELOG.md)
-* [Guidelines for contributing](../../blob/master/CONTRIBUTING.md)
+## Changelog
+* __0.1.0__ ( TBD )
+    * Initial release
