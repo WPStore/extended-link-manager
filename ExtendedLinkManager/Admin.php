@@ -54,7 +54,7 @@ class WPC_ExtendedLinkManager_Admin {
 
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'admin_menu' , array( $this, 'admin_menu' ) );
-		add_filter( 'plugin_action_links_' . plugin_basename ( WPC_ExtendedLinkManager::get_file() ), array( $this, 'add_action_links' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename( WPC_ExtendedLinkManager::get_file() ), array( $this, 'add_action_links' ) );
 		add_filter( 'plugin_row_meta', array( $this, 'set_plugin_meta' ), 10, 2 );
 
 	} // END __construct()
