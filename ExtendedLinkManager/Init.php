@@ -10,7 +10,7 @@
 // namespace WPC\ExtendedLinkManager;
 
 //avoid direct calls to this file
-if ( !defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
@@ -103,12 +103,10 @@ class WPC_ExtendedLinkManager_Init {
 			'singular_name'	=> __( 'Category' ), /* single taxonomy name */
 			'search_items'	=> __( 'Search Categories' ), /* search title for taxomony */
 			'all_items'		=> __( 'All Categories' ), /* all title for taxonomies */
-//			'parent_item' => __( 'Parent Custom Category', 'extended-link-manager' ), /* parent title for taxonomy */
-//			'parent_item_colon' => __( 'Parent Custom Category:', 'extended-link-manager' ), /* parent taxonomy title */
 			'edit_item'		=> __( 'Edit Category' ), /* edit custom taxonomy title */
 			'update_item'	=> __( 'Update Category' ), /* update title for taxonomy */
 			'add_new_item'	=> __( 'Add New Category' ), /* add new title for taxonomy */
-			'new_item_name'	=> __( 'New Category Name' ) /* name title for taxonomy */
+			'new_item_name'	=> __( 'New Category Name' ), /* name title for taxonomy */
 		);
 
 		$cat_args = array(

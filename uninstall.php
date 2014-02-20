@@ -6,25 +6,25 @@
  * @package		WPC\ExtendedLinkManager\Uninstaller
  */
 
-if ( !defined( 'ABSPATH' ) && !defined( 'WP_UNINSTALL_PLUGIN' ) ) {
+if ( ! defined( 'ABSPATH' ) && ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit();
 }
 
 if ( is_multisite() ) {
 
-    global $wpdb;
-    $blogs = $wpdb->get_results( "SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A );
+	global $wpdb;
+	$blogs = $wpdb->get_results( "SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A );
 
-    if ( $blogs ) {
-        foreach( $blogs as $blog ) {
-            switch_to_blog( $blog['blog_id'] );
-            delete_option( 'wpc_exlm_settings' );
-        }
-        restore_current_blog();
-    }
+	if ( $blogs ) {
+		foreach( $blogs as $blog ) {
+			switch_to_blog( $blog['blog_id'] );
+			delete_option( 'wpc_exlm_settings' );
+		}
+		restore_current_blog();
+	}
 
 } else {
 
-    delete_option( 'wpc_exlm_settings' );
+	delete_option( 'wpc_exlm_settings' );
 
 }

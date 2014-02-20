@@ -10,7 +10,7 @@
 // namespace WPC\ExtendedLinkManager;
 
 //avoid direct calls to this file
-if ( !defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
@@ -97,17 +97,6 @@ class WPC_ExtendedLinkManager_Admin {
 		</div><!-- .wrap -->
 
 	<?php
-//		WPCAdmin::settings_page(
-//			'options-general',
-//			__( 'Link', 'extended-link-manager' ) . ' ' . __( 'Settings' ),
-//			'exlm-settings-main',
-//			'vertical',
-//			array(
-//				array( __( 'Main', 'extended-link-manager' ), 'exlm-settings-main' ),
-//				array( __( 'Refresh', 'extended-link-manager' ), 'exlm-settings-second' ),
-//				array( __( 'Third', 'extended-link-manager' ), 'exlm-settings-third' )
-//			)
-//		);
 	} // END settings_page()
 
 	/**

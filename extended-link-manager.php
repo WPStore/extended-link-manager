@@ -45,7 +45,7 @@ Domain Path: /languages
 // namespace WPC;
 
 //avoid direct calls to this file
-if ( !defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
@@ -99,25 +99,21 @@ class WPC_ExtendedLinkManager {
 
 		self::$instance = $this;
 
-//		add_action( 'widgets_init', array( $this, 'widget' ) );
 		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
 
-		new WPC_ExtendedLinkManager_Init();
+		$wpc_exlm_init = new WPC_ExtendedLinkManager_Init();
 
-		if ( !is_admin() ) {
+		if ( ! is_admin() ) {
 
-			new WPC_ExtendedLinkManager_Frontend();
+			$wpc_exlm_frontend = new WPC_ExtendedLinkManager_Frontend();
 
 		}
 
 		if ( is_admin() ) {
 
-			new WPC_ExtendedLinkManager_Admin();
+			$wpc_exlm_admin = new WPC_ExtendedLinkManager_Admin();
 
 		}
-
-//		register_activation_hook( __FILE__, array( 'ExtendedLinkManager', 'activate_plugin' ) );
-//		register_deactivation_hook( __FILE__, array( 'ExtendedLinkManager', 'deactivate_plugin' ) );
 
 	} // END __construct()
 
@@ -174,7 +170,7 @@ class WPC_ExtendedLinkManager {
 			return;
 		}
 
-		$class = substr( $classname, 4 );
+		$class    = substr( $classname, 4 );
 		$filename = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . str_replace( '_', DIRECTORY_SEPARATOR, $class ) . '.php';
 
 		if ( file_exists( $filename ) ) {
@@ -257,5 +253,4 @@ class WPC_ExtendedLinkManager {
  *
  * @var	object	$wpc_exlm holds the instantiated class {@uses WPC_ExtendedLinkManager}
  */
-global $wpc_exlm;
 $wpc_exlm = new WPC_ExtendedLinkManager();
