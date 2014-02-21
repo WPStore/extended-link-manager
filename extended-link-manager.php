@@ -101,17 +101,17 @@ class WPC_ExtendedLinkManager {
 
 		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
 
-		$wpc_exlm_init = new WPC_ExtendedLinkManager_Init();
+		new WPC_ExtendedLinkManager_Init();
 
 		if ( ! is_admin() ) {
 
-			$wpc_exlm_frontend = new WPC_ExtendedLinkManager_Frontend();
+			new WPC_ExtendedLinkManager_Frontend();
 
 		}
 
 		if ( is_admin() ) {
 
-			$wpc_exlm_admin = new WPC_ExtendedLinkManager_Admin();
+			new WPC_ExtendedLinkManager_Admin();
 
 		}
 
