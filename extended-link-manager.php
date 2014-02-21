@@ -146,7 +146,7 @@ class WPC_ExtendedLinkManager {
 	 * @access	public
 	 * @since	1.0.0
 	 *
-	 * @return	object	self::$instance
+	 * @return	WPC_ExtendedLinkManager	self::$instance
 	 */
 	public static function get_instance() {
 
